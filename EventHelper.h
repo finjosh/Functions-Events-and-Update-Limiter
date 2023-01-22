@@ -5,9 +5,6 @@
 
 #include <unordered_set>
 #include <deque>
-#include <thread>
-#include <condition_variable>
-#include <mutex>
 
 #include "funcHelper.h"
 
@@ -24,10 +21,13 @@ class EventHelper
         // @attention Do NOT use a lambda unless you are going to clear all this events functions later as you can NOT search for a lambda function
         void add(funcHelper<void> funcHelper);
 
+        // @brief Clear ALL functions from this event
         void clear();
         
+        // @brief removes only the given function from this event if it is found (the input vars are also compared)
         void remove(func funcHelper);
 
+        // @brief returns the current amount of functions that are held in this event
         size_t size();
 
         // @brief Makes this EventHelper keyless (void*)

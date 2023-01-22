@@ -1,9 +1,9 @@
 #include "TerminatingFunction.h"
 
 std::unordered_set<funcHelper<StateType>> TerminatingFunction::terminatingFunctions;
-float TerminatingFunction::deltaTime = 0;
+double TerminatingFunction::deltaTime = 0;
 
-void TerminatingFunction::UpdateFunctions(float deltaTime)
+void TerminatingFunction::UpdateFunctions(double deltaTime)
 {
     TerminatingFunction::deltaTime = deltaTime;
     for (auto function = TerminatingFunction::terminatingFunctions.begin(); function != TerminatingFunction::terminatingFunctions.end(); function++)
@@ -21,7 +21,7 @@ void TerminatingFunction::Add(funcHelper<StateType> function, bool replace)
 { 
     if (function.valid())
     {
-        if (TerminatingFunction::terminatingFunctions.contains(function) && replace)
+        if (replace && TerminatingFunction::terminatingFunctions.contains(function))
         {
             TerminatingFunction::terminatingFunctions.erase(function);
             TerminatingFunction::terminatingFunctions.insert({function}); 
@@ -37,5 +37,5 @@ void TerminatingFunction::clear()
 void TerminatingFunction::erase(funcHelper<StateType> function)
 { TerminatingFunction::terminatingFunctions.erase(TerminatingFunction::terminatingFunctions.find(function)); }
 
-float TerminatingFunction::getDeltaTime()
+double TerminatingFunction::getDeltaTime()
 { return TerminatingFunction::deltaTime; }

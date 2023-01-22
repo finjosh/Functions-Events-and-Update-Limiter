@@ -15,6 +15,12 @@ public:
         tp{std::chrono::steady_clock::now()}
     {}
 
+    void updateLimit(std::intmax_t MaxUpdates)
+    {
+        this->MaxUpdates = MaxUpdates;
+        time_between_frames = std::chrono::duration<double>((double)1/(double)MaxUpdates);
+    }
+
     void wait() {
         // add to time point
         tp += time_between_frames;

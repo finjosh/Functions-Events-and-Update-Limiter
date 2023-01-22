@@ -18,7 +18,7 @@ public:
 
     template<typename _Callable, typename... _Arg>
     funcHelper(_Callable __function, _Arg&&... __args)
-    { this->setFunction(std::forward<_Callable>(__function), std::forward<_Arg>(__args)...); this->UpdateName(__function, __args...); }
+    { this->setFunction(__function, __args...); }
 
     template<typename _Callable, typename... _Arg>
     void setFunction(_Callable __function, _Arg&&... __args) 
@@ -55,13 +55,13 @@ private:
     void UpdateName(_Callable function, _Arg... args)
     {
         std::ostringstream creatingString;
-        creatingString << typeid(function).name() << "(";
-        (creatingString << ... << &args) << ")";
+        creatingString << typeid(function).name();
+        (creatingString << ... << args);
         name = creatingString.str();
     }
 };
 
-// allowing this class to be used in a hash table (unsigned_map, unsigned_set, ect)
+// allowing this class to be used in a hash table
 namespace std {
     template<typename _ReturnType>
     struct hash<funcHelper<_ReturnType>> {
