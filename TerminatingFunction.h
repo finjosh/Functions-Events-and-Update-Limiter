@@ -25,14 +25,15 @@ public:
     // @brief clears all terminating functions from the list 
     static void clear();
     // @brief erases the given function from the terminating functions list IF there is one in the list
-    // @warning has to have the EXACT same function (input vars included)
-    static void erase(funcHelper<StateType> function);
+    // @param all if true all functions with the same name will be deleted
+    // @warning has to have the exact same function (input vars included)
+    static void erase(funcHelper<StateType> function, bool all = false);
     // @brief returns the deltaTime from the last time it was updated
     // @warning does NOT update unless the UpdateFunctions function is called
     static double getDeltaTime();
+    static std::unordered_multiset<funcHelper<StateType>> terminatingFunctions;
 private:
     static double deltaTime;
-    static std::unordered_set<funcHelper<StateType>> terminatingFunctions;
 };
 
 typedef funcHelper<StateType> TFunc;

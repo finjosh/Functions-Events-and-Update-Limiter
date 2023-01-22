@@ -22,11 +22,12 @@ StateType TemplateFunction(float* inputVar)
     if (*inputVar >= 10)
     {
         delete(inputVar);
+        std::cout << "Finished Adding to Input" << std::endl;
         return StateType::Finished;
     }
 
-    inputVar++;
-    std::cout << "Added to Terminating function Template Input: " << inputVar << std::endl;
+    *(inputVar) += 0.5;
+    std::cout << "Added to Terminating Function Template Input: " << std::to_string(*inputVar) << std::endl;
     return StateType::Running;
 }
 // ---------
@@ -49,10 +50,11 @@ void Test1(float i);
 void Test2(float &i);
 void Test3(float &&i);
 void TestForTerminatingFunctions();
+StateType TestTerminatingFunction(float* totalTime);
 
 int main()
 {
-    TestForTerminatingFunctions();
+    
 }
 
 void TestForUpdateLimit()
@@ -158,19 +160,38 @@ void TestForTerminatingFunctions()
 {
     // when testing terminating functions I am going to use the UpdateLimiter to show the functionality of terminating functions for 
     // tasks which are wanted to be done overtime. This is more useful when wanting to create an "animation" of sorts.
-    UpdateLimiter updateLimit(10);
+    
+    UpdateLimiter updateLimit(2);
     
     // as the time between updates is not constant I can't just hard code the deltaTime
     clock_t start, end;
 
+    // this is programmed to run till the inputted value is >= 10 while add 0.5 each update
+    TerminatingFunction::Add(TFunc(TemplateFunction, new float(-5)));
+    // this is programmed to run for 15 seconds while outputting the deltaTime
+    TerminatingFunction::Add(TFunc(TestTerminatingFunction, new float(0)));
+
     while (true)
     {
         double deltaTime = double(end - start) / double(CLOCKS_PER_SEC);
+        // calling this will update all the terminating functions 
         TerminatingFunction::UpdateFunctions(deltaTime);
         start = clock();
-        std::cout << "deltaTime: " << std::to_string(deltaTime) << std::endl;
-
         updateLimit.wait();
         end = clock();
     }
+}
+
+StateType TestTerminatingFunction(float* totalTime)
+{
+    *totalTime += TerminatingFunction::getDeltaTime();
+    if (*totalTime >= 15) 
+    {
+        delete(totalTime);
+        return StateType::Finished;
+    }
+
+    std::cout << std::to_string(TerminatingFunction::getDeltaTime()) << std::endl;
+
+    return StateType::Running;
 }

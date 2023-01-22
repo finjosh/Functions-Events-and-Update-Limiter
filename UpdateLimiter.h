@@ -9,12 +9,14 @@
 class UpdateLimiter
 {
 public:
+    // @param MaxUpdates max updates per second
     UpdateLimiter(std::intmax_t MaxUpdates) : // initialize the object keeping the pace
         MaxUpdates(MaxUpdates),
         time_between_frames{(double)1/(double)MaxUpdates},
         tp{std::chrono::steady_clock::now()}
     {}
 
+    // @param MaxUpdates max updates per second
     void updateLimit(std::intmax_t MaxUpdates)
     {
         this->MaxUpdates = MaxUpdates;
