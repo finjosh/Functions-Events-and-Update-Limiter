@@ -54,7 +54,17 @@ StateType TestTerminatingFunction(float* totalTime);
 
 int main()
 {
+    bool exit = false;
+
     
+
+    while (!exit)
+    {
+        std::string input;
+        std::cin >> input;
+
+
+    }
 }
 
 void TestForUpdateLimit()
@@ -62,16 +72,18 @@ void TestForUpdateLimit()
     // set update limit at creation (can be changed at any time)
     UpdateLimiter UpdateLimit(10);
 
+    int secondsPassed = 0;
     int updatesPerSecond = 0;
     std::chrono::steady_clock secondClock;
     std::chrono::_V2::steady_clock::time_point nextSecond = secondClock.now() + std::chrono::seconds(1);
 
-    while (true)
+    while (secondsPassed <= 5)
     {
         if (secondClock.now() >= nextSecond)
         {
             std::cout << "Updates Last Second: " << updatesPerSecond << std::endl;
             updatesPerSecond = 0;
+            secondsPassed++;
             nextSecond = secondClock.now() + std::chrono::seconds(1);
         }
         ++updatesPerSecond;
@@ -171,7 +183,7 @@ void TestForTerminatingFunctions()
     // this is programmed to run for 15 seconds while outputting the deltaTime
     TerminatingFunction::Add(TFunc(TestTerminatingFunction, new float(0)));
 
-    while (true)
+    while (TerminatingFunction::terminatingFunctions.size() > 0)
     {
         double deltaTime = double(end - start) / double(CLOCKS_PER_SEC);
         // calling this will update all the terminating functions 

@@ -18,16 +18,16 @@ class EventHelper
         // @param key is a (void*) to the class that you want to be the key (void*) to this EventHelper
         EventHelper(void* key);
         
-        // @attention Do NOT use a lambda unless you are going to clear all this events functions later as you can NOT search for a lambda function
-        void add(funcHelper<void> funcHelper);
+        // @attention Do NOT use a lambda unless you are going to clear all this events Listeners later as you can NOT search for a lambda function
+        void addListener(funcHelper<void> funcHelper);
 
-        // @brief Clear ALL functions from this event
-        void clear();
+        // @brief Clear ALL Listeners from this event
+        void clearListeners();
         
-        // @brief removes only the given function from this event if it is found (the input vars are also compared)
-        void remove(func funcHelper);
+        // @brief removes only the given Listener from this event if it is found (the input vars are also compared)
+        void removeListener(func funcHelper);
 
-        // @brief returns the current amount of functions that are held in this event
+        // @brief returns the current amount of Listeners that are held in this event
         size_t size();
 
         // @brief Makes this EventHelper keyless (void*)
@@ -51,13 +51,13 @@ class EventHelper
         // @brief If there is no key (void*) for this EventHelper then no input is required
         // @attention using this operator without giving the key (void*) NOTHING will happen
         // @param key is a (void*) to the current key (void*) of this EventHelper
-        void operator() (std::string name, void* key = nullptr);
+        void operator() (void* key = nullptr);
 
         // @brief If there is no key (void*) for this EventHelper then no input is required
         // @attention using this operator without giving the key (void*) NOTHING will happen
         // @param key is a (void*) to the current key (void*) of this EventHelper
-        // @warning this will call THIS events functions that are attached and clear them (they will not be called at the normal event update time)
-        void ForceCallEvents(void* key = nullptr);
+        // @warning this will call THIS events Listeners that are attached and clear them (they will not be called at the normal event update time)
+        void ForceCallEvent(void* key = nullptr);
 
         // update has to be called to simplify the code as there will no longer be any need to deal with threads (atomic vars, mutex, ect)
 
@@ -67,7 +67,7 @@ class EventHelper
         static void Update();
 
     protected:
-        std::unordered_set<funcHelper<void>> functions;
+        std::unordered_set<funcHelper<void>> Listeners;
         void* key = nullptr;
         
         static std::deque<EventHelper*> eventQueue;
