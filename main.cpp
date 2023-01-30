@@ -54,17 +54,9 @@ StateType TestTerminatingFunction(float* totalTime);
 
 int main()
 {
-    bool exit = false;
-
-    
-
-    while (!exit)
-    {
-        std::string input;
-        std::cin >> input;
-
-
-    }
+    // TestForFuncHelper();
+    // TestForTerminatingFunctions();
+    // TestForUpdateLimit();
 }
 
 void TestForUpdateLimit()
