@@ -16,24 +16,24 @@ public:
     funcHelper() = default;
     ~funcHelper() = default;
 
-    template<typename _Callable, typename... _Arg>
-    funcHelper(_Callable __function, _Arg&&... __args)
-    { this->setFunction(__function, __args...); }
+    template<typename Func, typename... BoundArgs, typename std::enable_if_t<std::is_convertible<Func, std::function<void(const BoundArgs&...)>>::value>* = nullptr>
+    funcHelper(Func& _function, BoundArgs&&... args)
+    { this->setFunction(_function, args...); }
 
-    template<typename _Callable, typename... _Arg>
-    void setFunction(_Callable __function, _Arg&&... __args) 
-    { this->_function = std::bind(std::forward<_Callable>(__function), std::forward<_Arg>(__args)...); this->UpdateName(__function, __args...); }
+    template<typename Func, typename... BoundArgs, typename std::enable_if_t<std::is_convertible<Func, std::function<void(const BoundArgs&...)>>::value>* = nullptr>
+    void setFunction(Func& _function, BoundArgs&&... args) 
+    { this->__function = std::bind(std::forward<Func>(_function), std::forward<BoundArgs>(args)...); this->UpdateName(_function, args...); }
 
     // @returns true, if the function held is valid (not a nullptr)
-    bool valid() const { return (bool)_function; }
+    bool valid() const { return (bool)__function; }
 
     // @brief invokes the currently set function
     _ReturnType invoke() const
-    { return this->_function(); }
+    { return this->__function(); }
 
     // @brief invokes the currently set function
     _ReturnType operator() () const
-    { return this->_function(); }
+    { return this->__function(); }
 
     std::string getName() const
     { return this->name; }
@@ -48,11 +48,11 @@ public:
 
 private:
     //* storage of the _function
-    std::function<_ReturnType()> _function;
+    std::function<_ReturnType()> __function;
     std::string name = "";
 
-    template<typename _Callable, typename... _Arg>
-    void UpdateName(_Callable function, _Arg... args)
+    template<typename Func, typename... BoundArgs>
+    void UpdateName(Func function, BoundArgs... args)
     {
         std::ostringstream creatingString;
         creatingString << typeid(function).name();

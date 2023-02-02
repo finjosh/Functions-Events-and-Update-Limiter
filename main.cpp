@@ -54,7 +54,7 @@ StateType TestTerminatingFunction(float* totalTime);
 
 int main()
 {
-    // TestForFuncHelper();
+    TestForFuncHelper();
     // TestForTerminatingFunctions();
     // TestForUpdateLimit();
 }
@@ -125,7 +125,7 @@ void TestForFuncHelper()
 
         firstFunction.setFunction(Test2, i);
     */
-   
+
     // next test
 
     firstFunction.setFunction(Test3, 30);
