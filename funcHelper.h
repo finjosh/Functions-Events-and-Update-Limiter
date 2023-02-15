@@ -20,9 +20,15 @@ public:
     funcHelper(Func& _function, BoundArgs&&... args)
     { this->setFunction(_function, args...); }
 
+    funcHelper(std::function<_ReturnType()> function)
+    { this->__function = function; this->UpdateName(function); }
+
     template<typename Func, typename... BoundArgs, typename std::enable_if_t<std::is_convertible<Func, std::function<void(const BoundArgs&...)>>::value>* = nullptr>
     void setFunction(Func& _function, BoundArgs&&... args) 
     { this->__function = std::bind(std::forward<Func>(_function), std::forward<BoundArgs>(args)...); this->UpdateName(_function, args...); }
+
+    void setFunction(std::function<_ReturnType()> function) 
+    { this->__function = function; this->UpdateName(function); }
 
     // @returns true, if the function held is valid (not a nullptr)
     bool valid() const { return (bool)__function; }
