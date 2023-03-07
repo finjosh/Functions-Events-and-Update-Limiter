@@ -1,5 +1,5 @@
 # Functions-Events-and-Update-Limiter
-I was working on a school project that required some classes that were specific but quite useful in many situations. 
+I was working on a school project that required some classes that I could not find online.
 I have decided to upload these files for anyone looking for a simple solution to some of the following issues:
   - Handling functions and storing them for later (FuncHelper)
   - Handling simple Events using the funcHelper class (EventHelper)
@@ -9,4 +9,4 @@ I have decided to upload these files for anyone looking for a simple solution to
       - This is a simple way to do something over time without using threads or coroutines
 
 Once again, this is not in any way meant to be perfect!
-These are some of the simple classes that I made while working on a school project that I thought was simple yet useful enough to be useful for other people.
+These are some of the simple classes that I made while working on a school project that I thought might be useful for others.
